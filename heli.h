@@ -23,7 +23,7 @@ class Helicopter
 
     void Set_Scale(double scale);
 
-    unsigned Get_Location(unsigned* x, unsigned* y) const;
+    void Get_Location(unsigned* x, unsigned* y) const;
     int Get_HP(void) const;
 };
 #endif // __HELI_H__
