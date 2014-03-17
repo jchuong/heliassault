@@ -12,22 +12,22 @@ Helicopter::Helicopter(unsigned x, unsigned y, int hp) :
 
 void Helicopter::Move_Left(void)
 {
-  x = x - 5;
+  x = x - 10;
 }
 
 void Helicopter::Move_Right(void)
 {
-  x = x + 5;
+  x = x + 10;
 }
 
 void Helicopter::Move_Up(void)
 {
-  y = y - 5;
+  y = y - 10;
 }
 
 void Helicopter::Move_Down(void)
 {
-  x = x - 5;
+  y = y + 10;
 }
 
 void Helicopter::Shoot(void)

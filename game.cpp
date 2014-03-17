@@ -45,6 +45,28 @@ int main(void)
       {
         window.close();
       }
+
+      // Handle key input here
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+      {
+        Player->Move_Left();
+      }
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+      {
+        Player->Move_Right();
+      }
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+      {
+        Player->Move_Up();
+      }
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+      {
+        Player->Move_Down();
+      }
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+      {
+        Player->Shoot();
+      }
     }
     window.clear();
     Draw_Background(window);
