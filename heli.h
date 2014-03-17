@@ -6,13 +6,12 @@ class Helicopter
     unsigned x;
     unsigned y;
     int hp;
-    double scale;
 
     // Protect the class from strange modifications
     Helicopter();
     Helicopter operator=(const Helicopter&);
   public:
-    Helicopter(unsigned x, unsigned y, int hp, double scale);
+    Helicopter(unsigned x, unsigned y, int hp);
 
     void Move_Left(void);
     void Move_Right(void);
@@ -20,8 +19,6 @@ class Helicopter
     void Move_Down(void);
     void Shoot(void);
     void Take_Damage(int damage);
-
-    void Set_Scale(double scale);
 
     void Get_Location(unsigned* x, unsigned* y) const;
     int Get_HP(void) const;

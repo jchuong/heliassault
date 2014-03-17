@@ -1,8 +1,8 @@
 #include <cassert>
 
 #include "heli.h"
-Helicopter::Helicopter(unsigned x, unsigned y, int hp, double scale) :
-  x(x), y(y), scale(scale)
+Helicopter::Helicopter(unsigned x, unsigned y, int hp) :
+  x(x), y(y)
 {
   // Unfortunately, by being able to use negative hp damage, we either deal with unsigned
   // and signed ints for HP, so we need to do this check so avoid any instant death.
@@ -12,22 +12,22 @@ Helicopter::Helicopter(unsigned x, unsigned y, int hp, double scale) :
 
 void Helicopter::Move_Left(void)
 {
-  x = x - 5 * scale;
+  x = x - 5;
 }
 
 void Helicopter::Move_Right(void)
 {
-  x = x + 5 * scale;
+  x = x + 5;
 }
 
 void Helicopter::Move_Up(void)
 {
-  y = y - 5 * scale;
+  y = y - 5;
 }
 
 void Helicopter::Move_Down(void)
 {
-  x = x - 5 * scale;
+  x = x - 5;
 }
 
 void Helicopter::Shoot(void)
@@ -38,14 +38,6 @@ void Helicopter::Shoot(void)
 void Helicopter::Take_Damage(int damage)
 {
   hp = hp - damage;
-}
-
-void Helicopter::Set_Scale(double scale)
-{
-  this->scale = scale;
-  // Have to move the location relative to the scale
-  x = x * scale;
-  y = y * scale;
 }
 
 void Helicopter::Get_Location(unsigned* x, unsigned* y) const
