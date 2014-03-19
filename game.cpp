@@ -1,15 +1,19 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <cassert>
+#include <vector>
 #include "heli.h"
+#include "building.h"
 
+// TODO: Debug stream
 #include <iostream>
+
 Helicopter* Player;
+std::vector<Building> LowerBuildings;
 const unsigned ORIGINAL_WIDTH = 700;
 const unsigned ORIGINAL_HEIGHT = 500;
 
-void Initialize_Game(void)
-{
+void Initialize_Game(void) {
   Player = new Helicopter(100, 300, 100);
 }
 
@@ -31,11 +35,27 @@ void Draw_Player(sf::RenderWindow& window)
   window.draw(helicopter);
 }
 
+void Draw_Buildings(sf::RenderWindow& window)
+{
+  for (unsigned i = 0; i < LowerBuildings.size(); ++i)
+  {
+    Building building = LowerBuildings.at(i);
+    sf::RectangleShape buildingShape(sf::Vector2f(ORIGINAL_WIDTH / 20, building.height));
+    buildingShape.setFillColor(sf::Color(0, 0, 100));
+    buildingShape.setPosition(building.x, building.y);
+    buildingShape.setOutlineColor(sf::Color(0, 0, 0));
+    buildingShape.setOutlineThickness(1);
+    window.draw(buildingShape);
+  }
+}
+
 int main(void)
 {
   sf::RenderWindow window(sf::VideoMode(ORIGINAL_WIDTH, ORIGINAL_HEIGHT), "Heli-Assault");
   window.setFramerateLimit(120);
   Initialize_Game();
+  Building b(-30, 60, ORIGINAL_HEIGHT - 60);
+  LowerBuildings.push_back(b);
   while (window.isOpen())
   {
     sf::Event event;
@@ -70,6 +90,7 @@ int main(void)
     }
     window.clear();
     Draw_Background(window);
+    Draw_Buildings(window);
     Draw_Player(window);
     window.display();
   }
