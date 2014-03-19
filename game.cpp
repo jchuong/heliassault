@@ -54,8 +54,6 @@ int main(void)
   sf::RenderWindow window(sf::VideoMode(ORIGINAL_WIDTH, ORIGINAL_HEIGHT), "Heli-Assault");
   window.setFramerateLimit(120);
   Initialize_Game();
-  Building b(-30, 60, ORIGINAL_HEIGHT - 60);
-  LowerBuildings.push_back(b);
   while (window.isOpen())
   {
     sf::Event event;
