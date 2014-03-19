@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <cassert>
+#include <cstdlib>
+#include <ctime>
 #include <vector>
 #include "heli.h"
 #include "building.h"
@@ -15,6 +17,7 @@ const unsigned ORIGINAL_HEIGHT = 500;
 
 void Initialize_Game(void) {
   Player = new Helicopter(100, 300, 100);
+  srand(time(0));
 }
 
 void Draw_Background(sf::RenderWindow& window)
@@ -49,6 +52,36 @@ void Draw_Buildings(sf::RenderWindow& window)
   }
 }
 
+void Create_Building(void)
+{
+  unsigned height(0);
+  if (LowerBuildings.size() > 0)
+  {
+    Building lastBuilding = LowerBuildings.back();
+    if (lastBuilding.x > (int)(ORIGINAL_WIDTH - (ORIGINAL_WIDTH / 20)))
+    {
+      // Foremost building is not out of the screen yet, there is no space for a new one
+      return;
+    }
+    // Try to model height around the last building
+    height = rand() % 50 - rand() % 50 + lastBuilding.height;
+  }
+  else
+  {
+    height = rand() % (unsigned)(ORIGINAL_HEIGHT * 0.65);
+  }
+  Building newBuilding(ORIGINAL_WIDTH, ORIGINAL_HEIGHT - height, height);
+  LowerBuildings.push_back(newBuilding);
+}
+
+void Move_Buildings(void)
+{
+  for (unsigned i = 0; i < LowerBuildings.size(); ++i)
+  {
+    LowerBuildings.at(i).x -= 1;
+  }
+}
+
 int main(void)
 {
   sf::RenderWindow window(sf::VideoMode(ORIGINAL_WIDTH, ORIGINAL_HEIGHT), "Heli-Assault");
@@ -56,6 +89,8 @@ int main(void)
   Initialize_Game();
   while (window.isOpen())
   {
+    Create_Building();
+    Move_Buildings();
     sf::Event event;
     while (window.pollEvent(event))
     {
