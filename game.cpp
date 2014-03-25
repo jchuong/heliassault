@@ -43,7 +43,7 @@ void Draw_Buildings(sf::RenderWindow& window)
   for (unsigned i = 0; i < LowerBuildings.size(); ++i)
   {
     Building building = LowerBuildings.at(i);
-    sf::RectangleShape buildingShape(sf::Vector2f(ORIGINAL_WIDTH / 20, building.height));
+    sf::RectangleShape buildingShape(sf::Vector2f(ORIGINAL_WIDTH / 10, building.height));
     buildingShape.setFillColor(sf::Color(0, 0, 100));
     buildingShape.setPosition(building.x, building.y);
     buildingShape.setOutlineColor(sf::Color(0, 0, 0));
@@ -58,17 +58,22 @@ void Create_Building(void)
   if (LowerBuildings.size() > 0)
   {
     Building lastBuilding = LowerBuildings.back();
-    if (lastBuilding.x > (int)(ORIGINAL_WIDTH - (ORIGINAL_WIDTH / 20)))
+    if (lastBuilding.x > (int)(ORIGINAL_WIDTH - (ORIGINAL_WIDTH / 10)))
     {
       // Foremost building is not out of the screen yet, there is no space for a new one
       return;
     }
     // Try to model height around the last building
-    height = rand() % 50 - rand() % 50 + lastBuilding.height;
+    height = (rand() % 50 - rand() % 50 + lastBuilding.height) % (unsigned)(ORIGINAL_HEIGHT * 0.65);
+    if (height <= 0)
+    {
+      std::cout << "Height <= 0!" << std::endl;
+      height = -height + 50;
+    }
   }
   else
   {
-    height = rand() % (unsigned)(ORIGINAL_HEIGHT * 0.65);
+    height = rand() % (unsigned)(ORIGINAL_HEIGHT * 0.65) + (unsigned)(ORIGINAL_HEIGHT * 0.10);
   }
   Building newBuilding(ORIGINAL_WIDTH, ORIGINAL_HEIGHT - height, height);
   LowerBuildings.push_back(newBuilding);
