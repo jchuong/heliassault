@@ -3,7 +3,7 @@
 #include <cassert>
 #include <cstdlib>
 #include <ctime>
-#include <vector>
+#include <deque>
 #include "heli.h"
 #include "building.h"
 
@@ -11,7 +11,7 @@
 #include <iostream>
 
 Helicopter* Player;
-std::vector<Building> LowerBuildings;
+std::deque<Building> LowerBuildings;
 const unsigned ORIGINAL_WIDTH = 700;
 const unsigned ORIGINAL_HEIGHT = 500;
 
@@ -67,7 +67,6 @@ void Create_Building(void)
     height = (rand() % 50 - rand() % 50 + lastBuilding.height) % (unsigned)(ORIGINAL_HEIGHT * 0.65);
     if (height <= 0)
     {
-      std::cout << "Height <= 0!" << std::endl;
       height = -height + 50;
     }
   }
@@ -81,9 +80,16 @@ void Create_Building(void)
 
 void Move_Buildings(void)
 {
-  for (unsigned i = 0; i < LowerBuildings.size(); ++i)
+  if (LowerBuildings.size() > 0)
   {
-    LowerBuildings.at(i).x -= 1;
+    for (unsigned i = 0; i < LowerBuildings.size(); ++i)
+    {
+      LowerBuildings.at(i).x -= 1;
+    }
+    if (LowerBuildings.front().x <= -(int)ORIGINAL_WIDTH / 10)
+    {
+      LowerBuildings.pop_front();
+    }
   }
 }
 
