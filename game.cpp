@@ -52,6 +52,47 @@ void Draw_Buildings(sf::RenderWindow& window)
   }
 }
 
+// Checks if buildings collide with player
+// TODO: Check for bullets
+void Collision_Check_Buildings(void)
+{
+  // Figure out where the helicopter is
+  // Check the buildings within the same x area to save computation
+  unsigned x, y;
+  Player->Get_Location(&x, &y);
+  int right = x + 70;
+  int bottom = y + 40;
+  if (LowerBuildings.size() < 10) // Not a screen full of buildings, just check all buildings
+  {
+    for (unsigned i = 0; i < LowerBuildings.size(); ++i)
+    {
+      if (LowerBuildings.at(i).x < right)
+      {
+        if (LowerBuildings.at(i).y < bottom)
+        {
+          // Collision, game over
+          assert(false);
+        }
+      }
+    }
+  }
+  else
+  {
+    unsigned buildingIndex = std::max(right / (ORIGINAL_WIDTH / 10), (unsigned)0);
+    for (unsigned i = 0; i < std::min((unsigned)LowerBuildings.size() - buildingIndex, (unsigned)3); ++i)
+    {
+      if (LowerBuildings.at(i + buildingIndex).x < right)
+      {
+        if (LowerBuildings.at(i + buildingIndex).y < bottom)
+        {
+          // Collision, game over
+          assert(false);
+        }
+      }
+    }
+  }
+}
+
 void Create_Building(void)
 {
   unsigned height(0);
@@ -80,17 +121,17 @@ void Create_Building(void)
 
 void Move_Buildings(void)
 {
-  if (LowerBuildings.size() > 0)
+  // We should have created a building before this is called
+  // Otherwise, we will null pointer exception, for the cost of not checking if LowerBuildings is not empty
+  for (unsigned i = 0; i < LowerBuildings.size(); ++i)
   {
-    for (unsigned i = 0; i < LowerBuildings.size(); ++i)
-    {
-      LowerBuildings.at(i).x -= 1;
-    }
-    if (LowerBuildings.front().x <= -(int)ORIGINAL_WIDTH / 10)
-    {
-      LowerBuildings.pop_front();
-    }
+    LowerBuildings.at(i).x -= 1;
   }
+  if (LowerBuildings.front().x <= -(int)ORIGINAL_WIDTH / 10)
+  {
+    LowerBuildings.pop_front();
+  }
+  Collision_Check_Buildings();
 }
 
 int main(void)
