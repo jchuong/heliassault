@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <deque>
+#include "game.h"
 #include "heli.h"
 #include "building.h"
 
@@ -139,10 +140,9 @@ int main(void)
   sf::RenderWindow window(sf::VideoMode(ORIGINAL_WIDTH, ORIGINAL_HEIGHT), "Heli-Assault");
   window.setFramerateLimit(120);
   Initialize_Game();
+  enum BUTTON_STATE move_state = NONE;
   while (window.isOpen())
   {
-    Create_Building();
-    Move_Buildings();
     sf::Event event;
     while (window.pollEvent(event))
     {
@@ -150,27 +150,39 @@ int main(void)
       {
         window.close();
       }
-
       // Handle key input here
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+      else if (event.type == sf::Event::KeyPressed)
       {
-        Player->Move_Left();
-      }
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-      {
-        Player->Move_Right();
-      }
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-      {
-        Player->Move_Up();
-      }
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-      {
-        Player->Move_Down();
-      }
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-      {
-        Player->Shoot();
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        {
+          move_state = (move_state | LEFT) & ~RIGHT;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        {
+          move_state = (move_state | RIGHT) & ~LEFT;        
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        {
+          move_state = (move_state | UP) & ~DOWN;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        {
+          move_state = (move_state | DOWN) & ~UP;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        {
+          Player->Shoot();
+        }
+      } else if (event.type == sf::Event::KeyReleased) {
+        if (event.key.code == sf::Keyboard::Right) {
+          move_state = move_state & ~RIGHT;
+        } else if (event.key.code == sf::Keyboard::Left) {
+          move_state = move_state & ~LEFT;
+        } else if (event.key.code == sf::Keyboard::Up) {
+          move_state = move_state & ~UP;
+        } else if (event.key.code == sf::Keyboard::Down) {
+          move_state = move_state & ~DOWN;
+        }
       }
     }
     window.clear();
