@@ -1,6 +1,11 @@
 #ifndef __GAME_H__
 #define __GAME_H__
 
+const unsigned ORIGINAL_WIDTH = 700;
+const unsigned ORIGINAL_HEIGHT = 500;
+const unsigned HELICOPTER_WIDTH = 70;
+const unsigned HELICOPTER_HEIGHT = 40;
+
 enum BUTTON_STATE {
   NONE = 0,
   UP = 1,

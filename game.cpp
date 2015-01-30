@@ -13,8 +13,6 @@
 
 Helicopter* Player;
 std::deque<Building> LowerBuildings;
-const unsigned ORIGINAL_WIDTH = 700;
-const unsigned ORIGINAL_HEIGHT = 500;
 
 void Initialize_Game(void) {
   Player = new Helicopter(100, 300, 100);
@@ -33,7 +31,7 @@ void Draw_Player(sf::RenderWindow& window)
   assert(Player != 0);
   unsigned x, y;
   Player->Get_Location(&x, &y);
-  sf::RectangleShape helicopter(sf::Vector2f(70, 40));
+  sf::RectangleShape helicopter(sf::Vector2f(HELICOPTER_WIDTH, HELICOPTER_HEIGHT));
   helicopter.setFillColor(sf::Color(0, 0, 255));
   helicopter.setPosition(x, y);
   window.draw(helicopter);

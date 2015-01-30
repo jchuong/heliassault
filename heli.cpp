@@ -1,6 +1,8 @@
 #include <cassert>
+#include <algorithm>
 
 #include "heli.h"
+#include "game.h"
 Helicopter::Helicopter(unsigned x, unsigned y, int hp) :
   x(x), y(y), x_speed(0), y_speed(0)
 {
@@ -70,8 +72,8 @@ void Helicopter::Update_Speed(BUTTON_STATE move_state)
 
 void Helicopter::Update_Location(void)
 {
-  x = x + x_speed;
-  y = y + y_speed;
+  x = std::min((unsigned)std::max((int)x + x_speed, 0), ORIGINAL_WIDTH - HELICOPTER_WIDTH);
+  y = std::min((unsigned)std::max((int)y + y_speed, 0), ORIGINAL_HEIGHT - HELICOPTER_HEIGHT);
 }
 
 void Helicopter::Shoot(void)
