@@ -1,10 +1,17 @@
 #ifndef __HELI_H__
 #define __HELI_H__
+
+#include "game.h"
+
 class Helicopter
 {
   private:
+    int X_MAX_SPEED = 7;
+    int Y_MAX_SPEED = 7;
     unsigned x;
     unsigned y;
+    int x_speed;
+    int y_speed;
     int hp;
 
     // Protect the class from strange modifications
@@ -13,10 +20,14 @@ class Helicopter
   public:
     Helicopter(unsigned x, unsigned y, int hp);
 
-    void Move_Left(void);
-    void Move_Right(void);
-    void Move_Up(void);
-    void Move_Down(void);
+    void Move_Left(double update_percent);
+    void Move_Right(double update_percent);
+    void Move_Up(double update_percent);
+    void Move_Down(double update_percent);
+    void Stop_Horizontal(void);
+    void Stop_Vertical(void);
+    void Update_Location();
+    void Update_Speed(BUTTON_STATE move_state);
     void Shoot(void);
     void Take_Damage(int damage);
 

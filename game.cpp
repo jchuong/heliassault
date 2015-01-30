@@ -153,38 +153,61 @@ int main(void)
       // Handle key input here
       else if (event.type == sf::Event::KeyPressed)
       {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        if (event.key.code == sf::Keyboard::Left)
         {
-          move_state = (move_state | LEFT) & ~RIGHT;
+          move_state = move_state | LEFT;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        if (event.key.code == sf::Keyboard::Right)
         {
-          move_state = (move_state | RIGHT) & ~LEFT;        
+          move_state = move_state | RIGHT;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        if (event.key.code == sf::Keyboard::Up)
         {
-          move_state = (move_state | UP) & ~DOWN;
+          move_state = move_state | UP;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        if (event.key.code == sf::Keyboard::Down)
         {
-          move_state = (move_state | DOWN) & ~UP;
+          move_state = move_state | DOWN;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        if (event.key.code == sf::Keyboard::Space)
         {
           Player->Shoot();
         }
-      } else if (event.type == sf::Event::KeyReleased) {
-        if (event.key.code == sf::Keyboard::Right) {
-          move_state = move_state & ~RIGHT;
-        } else if (event.key.code == sf::Keyboard::Left) {
-          move_state = move_state & ~LEFT;
-        } else if (event.key.code == sf::Keyboard::Up) {
-          move_state = move_state & ~UP;
-        } else if (event.key.code == sf::Keyboard::Down) {
-          move_state = move_state & ~DOWN;
+      }
+      else if (event.type == sf::Event::KeyReleased)
+      {
+        if (event.key.code == sf::Keyboard::Right)
+        {
+          if (move_state & RIGHT)
+          {
+            move_state = move_state ^ RIGHT;
+          }
+        }
+        else if (event.key.code == sf::Keyboard::Left)
+        {
+          if (move_state & LEFT)
+          {
+            move_state = move_state ^ LEFT;
+          }
+        }
+        else if (event.key.code == sf::Keyboard::Up)
+        {
+          if (move_state & UP)
+          {
+            move_state = move_state ^ UP;
+          }
+        }
+        else if (event.key.code == sf::Keyboard::Down)
+        {
+          if (move_state & DOWN)
+          {
+            move_state = move_state ^ DOWN;
+          }
         }
       }
     }
+    Player->Update_Speed(move_state);
+    Player->Update_Location();
     window.clear();
     Draw_Background(window);
     Draw_Buildings(window);
